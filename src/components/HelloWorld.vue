@@ -9,7 +9,7 @@ const count = ref(0);
 </script>
 
 <template>
-  <h1>PWA Training BLI Project Group 3</h1>
+  <h1>PWA Training BLI test Project Group 3</h1>
 
   <p>Code changes #1</p>
 
