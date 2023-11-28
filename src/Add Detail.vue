@@ -14,7 +14,14 @@
 
       <div class="form-group">
         <label for="image" class="label">Add Image:</label>
-        <input type="file" id="image" @change="handleImageChange" accept="image/*" class="file-input" />
+        <input
+          type="file"
+          id="image"
+          @change="handleImageChange"
+          accept="image/*"
+          class="file-input"
+          capture="user"
+        />
       </div>
 
       <button type="submit" class="submit-button">Submit</button>
