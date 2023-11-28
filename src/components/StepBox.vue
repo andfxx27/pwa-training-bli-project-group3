@@ -1,27 +1,63 @@
 <script setup>
+
+
+
 import { ref } from 'vue';
 
-defineProps({
-  msg: String,
-});
+const show = ref(false); 
+
+  defineProps({
+  title: String,
+  description: String,
+})
+
 
 </script>
+
 <template>
-  <div class="container">
-    <div>
-        <h1 class = "title">Untitled Recipe</h1>
-    </div>
-  </div>
+ <button class="button-title" @click="show = !show"> 
+ <v-card >
+    <v-card-title class="title">
+      {{ title }}
+    </v-card-title>
+    <v-expand-transition>
+      <div v-show="show">
+        <v-divider></v-divider>
+
+        <v-card-text class="description" >
+          {{ description }}
+        </v-card-text>
+        <div class="image-container">
+            <v-img
+            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+            height="400px"
+            width="400px"
+            cover
+          ></v-img>
+        </div>
+        
+      </div>
+    </v-expand-transition>
+  </v-card>
+ </button>
 </template>
 
 
 <style scoped>
-.container {
-  background-color: #888;
+.button-title {
   width: 100%;
-  padding-left: 10rem;
-  padding-top: 2rem;
-  margin: 30px 10px 30px 10px;
+}
+.image-container{
+  padding: 20px 80px 20px 80px;
+  display: flex;
+  align-items: center;
+}
+
+.title{
+  text-align: start;
+}
+.description{
+  text-align: start;
 }
 
 
