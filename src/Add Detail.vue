@@ -42,7 +42,18 @@ export default {
       image: null,
     };
   },
+  mounted() {
+    // Check if the camera is supported
+    this.checkCameraSupport();
+  },
   methods: {
+    checkCameraSupport() {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        console.log('Camera is supported!');
+      } else {
+        console.log('Camera is not supported.');
+      }
+    },
     async saveData() {
       // Save to IndexedDB
       console.log('Before capturing values:');
