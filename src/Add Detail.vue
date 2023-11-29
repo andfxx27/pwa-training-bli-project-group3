@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1 class="heading">Add Recipe</h1>
-    <form @submit.prevent="saveData">
+    <form @submit.prevent="saveData" ref="recipeForm">
       <div class="form-group">
         <label for="title" class="label">Title:</label>
         <input type="text" id="title" v-model="title" class="input" required />
@@ -14,14 +14,16 @@
 
       <div class="form-group">
         <label for="image" class="label">Add Image:</label>
+        <!-- Input for choosing file or opening camera -->
         <input
           type="file"
           id="image"
           @change="handleImageChange"
           accept="image/*"
           class="file-input"
-          capture="user"
+          capture="environment"
         />
+        <button @click.prevent="openCamera" class="choose-button">Open Camera</button>
       </div>
 
       <button type="submit" class="submit-button">Submit</button>
@@ -40,19 +42,23 @@ export default {
       title: '',
       description: '',
       image: null,
+      openCameraClicked: false,
     };
   },
-  mounted() {
-    // Check if the camera is supported
-    this.checkCameraSupport();
-  },
+  
   methods: {
-    checkCameraSupport() {
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        console.log('Camera is supported!');
-      } else {
-        console.log('Camera is not supported.');
-      }
+
+    openCamera() {
+      // Set the flag to true before triggering the file input
+      this.openCameraClicked = true;
+
+      // Trigger the file input to open the camera (front or back, depending on 'capture' attribute)
+      const fileInput = this.$refs.recipeForm.querySelector('#image');
+      fileInput.setAttribute('capture', 'environment');
+      fileInput.click();
+
+      // Reset 'capture' attribute after the click to avoid affecting subsequent file selections
+      fileInput.removeAttribute('capture');
     },
     async saveData() {
       // Save to IndexedDB
@@ -111,9 +117,17 @@ export default {
       this.description = '';
       this.image = null;
     },
-    handleImageChange(event) {
-      // Handle the change event when a file is selected
-      const file = event.target.files[0];
+    handleImageChange() {
+      // If the file input change event is triggered and the "Open Camera" button was clicked,
+      // prevent further actions (e.g., submitting the form)
+      if (this.openCameraClicked) {
+        this.openCameraClicked = false; // Reset the flag
+        return;
+      }
+
+      // Handle the change event for choosing a file
+      const fileInput = document.getElementById('image');
+      const file = fileInput.files[0];
 
       // Read the file as a data URL
       const reader = new FileReader();
@@ -185,5 +199,14 @@ export default {
   border: none;
   padding: 20px 40px;
   font-size: 32px;
+}
+.choose-button {
+  margin-top: 10px;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
 }
 </style>
