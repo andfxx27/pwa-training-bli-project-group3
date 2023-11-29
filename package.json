@@ -10,8 +10,10 @@
     "generate-pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
+    "@mdi/font": "^7.3.67",
     "axios": "^1.6.2",
     "idb": "^7.1.1",
+    "material-design-icons-iconfont": "^6.7.0",
     "vue": "^3.3.8",
     "workbox-background-sync": "^7.0.0",
     "workbox-core": "^7.0.0",
