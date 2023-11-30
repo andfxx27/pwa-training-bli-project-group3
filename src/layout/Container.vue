@@ -33,7 +33,7 @@ async function getRecipeStepData() {
       "https://65631355ee04015769a6c52a.mockapi.io/recipeh"
     );
 
-    const recipeSteps = response.data;
+    recipeSteps = response.data;
 
     // Open IndexedDB database
     const db = await openDB("recipeDB", 1, {
@@ -96,7 +96,15 @@ onBeforeUpdate(() => console.log("onBeforeUpdate..."));
   padding-top: 2rem;
 }
 
+@media screen and (max-width: 768px) {
+  .container {
+    padding-left: 0px; 
+    padding-right: 42px;
+  }
+}
+
 .title {
   margin-bottom: 20px;
+  padding-left: 20px;
 }
 </style>
