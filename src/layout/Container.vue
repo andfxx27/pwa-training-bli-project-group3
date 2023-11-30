@@ -46,9 +46,9 @@ async function getRecipeStepData() {
 
     const indexedDbData = await db.getAll("entries");
 
-    recipeSteps.forEach((recipeStep) => {
-      console.log(recipeStep);
-    });
+    // recipeSteps.forEach((recipeStep) => {
+    //   console.log(recipeStep);
+    // });
   } catch (error) {
     console.log(error);
   }

@@ -194,8 +194,8 @@ registerRoute(
 
 // Define your runtime caching strategy here
 registerRoute(
-  /^https:\/\/pokeapi.co\/api\/v2\/pokemon$/,
-  new NetworkOnly({
+  /^https:\/\/65631355ee04015769a6c52a.mockapi.io\/recipeh$/,
+  new NetworkFirst({
     plugins: [
       bgSyncPlugin,
       statusPlugin
