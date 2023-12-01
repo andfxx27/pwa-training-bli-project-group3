@@ -4,6 +4,7 @@ import axios from "axios";
 import { onBeforeUpdate, onMounted, ref } from "vue";
 import AddRecipeStepModal from "../components/AddRecipeStepModal.vue";
 import StepBox from "../components/StepBox.vue";
+import CaptureImage from "../components/CaptureImage.vue";
 
 let recipeSteps = ref([]);
 
@@ -61,7 +62,10 @@ onBeforeUpdate(() => console.log("onBeforeUpdate..."));
 </script>
 
 <template>
+  
+
   <div class="container">
+    <CaptureImage/>
     <h1 class="title">Untitled Recipe</h1>
     <StepBox
       v-for="(step, index) in recipeSteps"
@@ -85,6 +89,8 @@ onBeforeUpdate(() => console.log("onBeforeUpdate..."));
       onClickShowAddRecipeStepImageByCaptureModal
     "
   />
+
+
 </template>
 
 <style scoped>
