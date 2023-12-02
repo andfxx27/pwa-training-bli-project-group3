@@ -1,7 +1,7 @@
 <template>
   <div>
-    <video ref="video" width="640" height="480" autoplay v-if="startVideo"></video>
-    <img v-else-if="file" :src="file" alt="Captured Image" height="480">
+    <video ref="video" width="640" height="480" autoplay></video>
+    <img v-if="file" :src="file" alt="Captured Image" height="480">
     <canvas ref="canvas" style="display: none;"></canvas>
     <input type="file" @change="handleFileChange" ref="fileInput" style="display: none;">
     <button @click="startCapture" :disabled="startVideo || isCapturing">Start Capture</button>
@@ -9,6 +9,7 @@
     <button @click="captureImage" :disabled="!file">Take a Picture</button>
   </div>
 </template>
+
   
   <script>
   import { openDB } from 'idb';
