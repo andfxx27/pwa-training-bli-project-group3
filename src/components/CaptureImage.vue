@@ -1,7 +1,7 @@
 <template>
   <div>
-    <video ref="video" width="640" height="480" autoplay></video>
-    <img v-if="file" :src="file" alt="Captured Image" height="480">
+    <video ref="video" width="640" height="480" autoplay v-if="startVideo"></video>
+    <img v-else-if="file" :src="file" alt="Captured Image" height="480">
     <canvas ref="canvas" style="display: none;"></canvas>
     <input type="file" @change="handleFileChange" ref="fileInput" style="display: none;">
     <button @click="startCapture" :disabled="startVideo || isCapturing">Start Capture</button>
@@ -9,7 +9,6 @@
     <button @click="captureImage" :disabled="!file">Take a Picture</button>
   </div>
 </template>
-
   
   <script>
   import { openDB } from 'idb';
@@ -41,21 +40,18 @@
       }
     },
     initCamera() {
-      if (!this.$refs.video) {
-        console.error('Video element is not available.');
-        return;
-      }
-
       navigator.mediaDevices.getUserMedia({ video: true })
         .then((stream) => {
           // Assign the stream to the video element
-          this.$refs.video.srcObject = stream;
+          if (this.$refs.video) {
+            this.$refs.video.srcObject = stream;
 
-          // Store the stream to stop it later
-          this.videoStream = stream;
+            // Store the stream to stop it later
+            this.videoStream = stream;
 
-          // Set startVideo to true after the stream has started
-          this.startVideo = true;
+            // Set startVideo to true after the stream has started
+            this.startVideo = true;
+          }
         })
         .catch((error) => {
           console.error('Error initializing camera:', error);
@@ -109,32 +105,32 @@
         console.log('Image saved to IndexedDB');
       },
       async handleFileChange(event) {
-      // Reset video stream and startVideo status when a file is selected
-      this.stopCapture();
-      if (this.$refs.video) {
-        this.$refs.video.srcObject = null;
-      }
-      this.startVideo = false;
-
-      // Display the selected image
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.file = reader.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    },
-    confirmDialog(message) {
-      return new Promise((resolve) => {
-        if (window.confirm(message)) {
-          resolve(true);
-        } else {
-          resolve(false);
+        // Reset video stream and startVideo status when a file is selected
+        this.stopCapture();
+        if (this.$refs.video) {
+          this.$refs.video.srcObject = null;
+          this.startVideo = false;
         }
-      });
-    },
+
+        // Display the selected image
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.file = reader.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      },
+    confirmDialog(message) {
+        return new Promise((resolve) => {
+          if (window.confirm(message)) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+      },
     },
   };
   </script>
