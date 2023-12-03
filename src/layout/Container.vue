@@ -65,7 +65,6 @@ onBeforeUpdate(() => console.log("onBeforeUpdate..."));
   
 
   <div class="container">
-    <CaptureImage/>
     <h1 class="title">Untitled Recipe</h1>
     <StepBox
       v-for="(step, index) in recipeSteps"

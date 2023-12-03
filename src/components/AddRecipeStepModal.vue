@@ -1,5 +1,6 @@
 <script setup>
 import AddRecipeStepModalDetail from "./AddRecipeStepModalDetail.vue";
+import CaptureImage from "./CaptureImage.vue";
 
 const props = defineProps([
   "recipeSteps",
@@ -9,6 +10,8 @@ const props = defineProps([
   "showAddRecipeStepImageByCaptureModal",
   "onClickShowAddRecipeStepImageByCaptureModal",
 ]);
+
+
 </script>
 
 <template>
@@ -57,6 +60,7 @@ const props = defineProps([
       >
         <v-card>
           <v-card-title> Add Recipe Step Image by Capture </v-card-title>
+          <CaptureImage/>
           <v-card-actions>
             <!-- Button to close add recipe step image by capture modal -->
             <v-btn

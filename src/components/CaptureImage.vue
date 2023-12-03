@@ -1,12 +1,17 @@
 <template>
   <div>
-    <video ref="video" width="640" height="480" autoplay v-if="startVideo"></video>
-    <img v-else-if="file" :src="file" alt="Captured Image" height="480">
-    <canvas ref="canvas" style="display: none;"></canvas>
+    <video ref="video" width="640" height="480" autoplay v-if="isShow"></video>
+    <div v-else ></div>
+    <!-- <img v-else-if="file" :src="file" alt="Captured Image" height="480"> -->
+    <canvas ref="canvas" v-show="!isShowButton" ></canvas>
     <input type="file" @change="handleFileChange" ref="fileInput" style="display: none;">
-    <button @click="startCapture" :disabled="startVideo || isCapturing">Start Capture</button>
-    <button @click="stopCapture" :disabled="!startVideo || isCapturing">Stop Capture</button>
-    <button @click="captureImage" :disabled="!file">Take a Picture</button>
+    <div>
+      <button @click="startCapture" v-show="isShowButton" >Start Capture</button>
+      <!-- <button @click="stopCapture" >Stop Capture</button> -->
+      <button @click="captureImage" v-show="isShowButton" >Take a Picture</button>
+      
+    </div>
+    
   </div>
 </template>
   
@@ -14,7 +19,7 @@
   import { openDB } from 'idb';
   import { ref } from 'vue';
 
-  let startVideo = ref()
+  let startVideo = ref();
   export default {
     data() {
       return {
@@ -22,6 +27,8 @@
         startVideo: true,
         file: null,
         isCapturing: false,
+        isShow : true,
+        isShowButton: true
       };
     },
     methods: {
@@ -65,6 +72,8 @@
       this.startVideo = false;
     },
     async captureImage() {
+      this.isShow = false;
+      this.isShowButton = false;
       if (this.startVideo) {
         // If the video is currently running, take a picture
         await this.saveToIndexedDB();
