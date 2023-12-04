@@ -59,7 +59,7 @@ onBeforeUpdate(() => console.log('onBeforeUpdate...'));
 
 <template>
   <div class="container">
-    <h1 class="title">Untitled Recipe</h1>
+    <h1 class="title">Untitled Recipeh</h1>
     <StepBox
       v-for="(step, index) in recipeSteps"
       :title="step.title"
@@ -86,6 +86,7 @@ onBeforeUpdate(() => console.log('onBeforeUpdate...'));
 </template>
 
 <style scoped>
+
 .container {
   background-color: rgb(209, 209, 209);
   width: 100%;
