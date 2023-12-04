@@ -1,43 +1,43 @@
 <script setup>
-import { openDB } from "idb";
-import axios from "axios";
-import { ref } from "vue";
+import { openDB } from 'idb';
+import axios from 'axios';
+import { ref } from 'vue';
 
 const props = defineProps([
-  "recipeSteps",
-  "onAddRecipeSteps",
-  "showAddRecipeStepModal",
-  "onClickShowAddRecipeStepModal",
+  'recipeSteps',
+  'onAddRecipeSteps',
+  'showAddRecipeStepModal',
+  'onClickShowAddRecipeStepModal',
 ]);
 
-let title = ref("");
-let description = ref("");
+let title = ref('');
+let description = ref('');
 let image = ref(null);
 let rawImage = ref(null);
 
-let alertMessage = ref("");
+let alertMessage = ref('');
 
 function resetFormReactiveValues() {
-  title.value = "";
-  description.value = "";
+  title.value = '';
+  description.value = '';
   image.value = null;
   rawImage.value = null;
 
-  alertMessage.value = "";
+  alertMessage.value = '';
 
   props.onClickShowAddRecipeStepModal();
 }
 
 function logFormReactiveModelBefore() {
-  console.log("Before capturing values (still a vue reactive object):");
-  console.log("Title:", title);
-  console.log("Description:", description);
+  console.log('Before capturing values (still a vue reactive object):');
+  console.log('Title:', title);
+  console.log('Description:', description);
 }
 
 function logFormReactiveModelAfter(title, description) {
-  console.log("After capturing values (access using .value notation):");
-  console.log("Title:", title);
-  console.log("Description:", description);
+  console.log('After capturing values (access using .value notation):');
+  console.log('Title:', title);
+  console.log('Description:', description);
 }
 
 async function saveData() {
@@ -54,7 +54,7 @@ async function saveData() {
   logFormReactiveModelAfter(capturedTitle, capturedDescription);
 
   // Validate input, at least title must be inputted
-  if (title.value === "") {
+  if (title.value === '') {
     alertMessage.value = "Title value can't be empty!";
 
     setTimeout(() => {
@@ -76,27 +76,27 @@ async function saveData() {
 
   try {
     const response = await axios.post(
-      "https://65631355ee04015769a6c52a.mockapi.io/recipeh",
+      'https://65631355ee04015769a6c52a.mockapi.io/recipeh',
       requestBody
     );
 
     const savedRecipeStep = response.data;
 
-    console.log("Data sent to mock API:", response.data);
+    console.log('Data sent to mock API:', response.data);
 
     await saveToIndexedDB(savedRecipeStep);
   } catch (error) {
-    console.error("Error sending data to mock API:", error);
+    console.error('Error sending data to mock API:', error);
   }
 }
 
 async function saveToIndexedDB(savedRecipeStep) {
   // Open IndexedDB database
-  const db = await openDB("recipeDB", 1, {
+  const db = await openDB('recipeDB', 1, {
     upgrade(db) {
       // Create an object store (table) named 'entries'
       // db.createObjectStore("entries", { keyPath: "id", autoIncrement: true });
-      db.createObjectStore("entries");
+      db.createObjectStore('entries');
     },
   });
 
@@ -109,7 +109,7 @@ async function saveToIndexedDB(savedRecipeStep) {
 
   // Save the entry to the 'entries' object store using id from MockAPI
   const indexedDbSaveResult = await db.add(
-    "entries",
+    'entries',
     entry,
     savedRecipeStep.id
   );
@@ -122,7 +122,7 @@ async function saveToIndexedDB(savedRecipeStep) {
     id: savedRecipeStep.id,
     description: savedRecipeStep.description,
     title: savedRecipeStep.title,
-    imageBase64: (await db.get("entries", savedRecipeStep.id)).image,
+    imageBase64: (await db.get('entries', savedRecipeStep.id)).image,
     rawImage: rawImage,
   };
 
@@ -148,7 +148,7 @@ function handleImageChange(event) {
 
 function getImageName() {
   // Get the file input element
-  const fileInput = document.getElementById("image");
+  const fileInput = document.getElementById('image');
 
   // Check if a file is selected
   if (fileInput && fileInput.files.length > 0) {
@@ -158,7 +158,7 @@ function getImageName() {
   }
 
   // Return a default name or handle the case where no file is selected
-  return "default_image.jpg";
+  return 'default_image.jpg';
 }
 </script>
 

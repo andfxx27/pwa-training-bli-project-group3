@@ -1,12 +1,15 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const show = ref(false);
 
 defineProps({
   title: String,
   description: String,
+  image: String,
 });
+
+console.log(image);
 </script>
 
 <template>
@@ -23,12 +26,8 @@ defineProps({
             {{ description }}
           </v-card-text>
           <div class="image-container">
-            <v-img
-              src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-              height="100%"
-              width="100%"
-              cover
-            ></v-img>
+            <!-- src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" -->
+            <v-img :src="image" height="100%" width="100%" cover></v-img>
           </div>
         </div>
       </v-expand-transition>

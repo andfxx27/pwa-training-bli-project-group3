@@ -1,10 +1,10 @@
 <script setup>
-import { openDB } from "idb";
-import axios from "axios";
-import { onBeforeUpdate, onMounted, ref } from "vue";
-import AddRecipeStepModal from "../components/AddRecipeStepModal.vue";
-import StepBox from "../components/StepBox.vue";
-import CaptureImage from "../components/CaptureImage.vue";
+import { openDB } from 'idb';
+import axios from 'axios';
+import { onBeforeUpdate, onMounted, ref } from 'vue';
+import AddRecipeStepModal from '../components/AddRecipeStepModal.vue';
+import StepBox from '../components/StepBox.vue';
+import CaptureImage from '../components/CaptureImage.vue';
 
 let recipeSteps = ref([]);
 
@@ -27,29 +27,25 @@ const onClickShowAddRecipeStepImageByCaptureModal = (event) => {
 };
 
 async function getRecipeStepData() {
-  console.log("Fetching recipe step from MockAPI & Indexed DB...");
+  console.log('Fetching recipe step from MockAPI & Indexed DB...');
 
   try {
     const response = await axios.get(
-      "https://65631355ee04015769a6c52a.mockapi.io/recipeh"
+      'https://65631355ee04015769a6c52a.mockapi.io/recipeh'
     );
 
     recipeSteps.value = response.data;
 
     // Open IndexedDB database
-    const db = await openDB("recipeDB", 1, {
+    const db = await openDB('recipeDB', 1, {
       upgrade(db) {
         // Create an object store (table) named 'entries'
         // db.createObjectStore("entries", { keyPath: "id", autoIncrement: true });
-        db.createObjectStore("entries");
+        db.createObjectStore('entries');
       },
     });
 
-    const indexedDbData = await db.getAll("entries");
-
-    // recipeSteps.forEach((recipeStep) => {
-    //   console.log(recipeStep);
-    // });
+    const indexedDbData = await db.getAll('entries');
   } catch (error) {
     console.log(error);
   }
@@ -58,18 +54,17 @@ async function getRecipeStepData() {
 }
 
 onMounted(getRecipeStepData);
-onBeforeUpdate(() => console.log("onBeforeUpdate..."));
+onBeforeUpdate(() => console.log('onBeforeUpdate...'));
 </script>
 
 <template>
-  
-
   <div class="container">
     <h1 class="title">Untitled Recipe</h1>
     <StepBox
       v-for="(step, index) in recipeSteps"
       :title="step.title"
       :description="step.description"
+      :image="step.imageBase64"
     />
     <v-btn class="ma-4" @click="onClickShowAddRecipeStepModal"
       >Add another step</v-btn
@@ -88,8 +83,6 @@ onBeforeUpdate(() => console.log("onBeforeUpdate..."));
       onClickShowAddRecipeStepImageByCaptureModal
     "
   />
-
-
 </template>
 
 <style scoped>
